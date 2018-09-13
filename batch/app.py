@@ -10,6 +10,10 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.dialects.postgresql import UUID
 from uuid import uuid4
 
+from werkzeug.wsgi import DispatcherMiddleware
+from werkzeug.serving import run_simple
+from prometheus_client import make_wsgi_app
+
 
 app = Flask(__name__)
 
@@ -18,6 +22,11 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 api = Api(app)
+
+# use DispatcherMiddleware to route /metrics requests to prometheus_client
+dispatched = DispatcherMiddleware(app, {
+    '/metrics': make_wsgi_app()
+})
 
 
 class Widget(db.Model):
@@ -74,4 +83,4 @@ api.add_resource(WidgetDetail, '/widgets/<widget_id>')
 
 if __name__ == '__main__':
     db.create_all()
-    app.run(debug=True)
+    run_simple('localhost', 5000, dispatched, use_debugger=True, use_reloader=True, use_evalex=True)
