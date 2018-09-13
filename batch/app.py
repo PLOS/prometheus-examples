@@ -68,8 +68,8 @@ class WidgetDetail(Resource):
         return {'id': str(widget.id), 'name': widget.name, 'wongles': widget.wongles, 'waggles': widget.waggles}
 
 
-api.add_resource(WidgetList, '/')
-api.add_resource(WidgetDetail, '/<widget_id>')
+api.add_resource(WidgetList, '/widgets')
+api.add_resource(WidgetDetail, '/widgets/<widget_id>')
 
 
 if __name__ == '__main__':
