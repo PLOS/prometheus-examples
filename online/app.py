@@ -50,6 +50,7 @@ class Widget(db.Model):
 # prometheus instruments
 WIDGET_LIST_TIME = Histogram('widget_get_seconds', 'Time spent getting a widget')
 WIDGET_REQUEST_ERRORS = Counter('widget_request_errors', 'Errors processing widget requests', ['method', 'endpoint'])
+WIDGET_REQUEST_ERRORS.set(0)
 WIDGET_COUNT = Gauge('widget_count', 'Number of widgets in the database')
 WIDGET_COUNT.set_function(lambda: db.session.query(Widget).count())
 
