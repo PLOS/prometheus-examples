@@ -32,6 +32,10 @@ class Widget(db.Model):
 
 
 class WidgetList(Resource):
+    """
+    API resource to list widgets (get) or create a new widget (post)
+
+    """
     def get(self):
         widgets = db.session.query(Widget).all()
         serialized = [
@@ -49,11 +53,19 @@ class WidgetList(Resource):
 
 
 class WidgetDetail(Resource):
+    """
+    API resource to get widget details (get) or delete a widget (post)
+
+    """
     def delete(self, widget_id):
         widget = db.session.query(Widget).filter(Widget.id == widget_id).one()
         db.session.delete(widget)
         db.session.commit()
         return 'deleted', 200
+
+    def get(self, widget_id):
+        widget = db.session.query(Widget).filter(Widget.id == widget_id).one()
+        return {'id': str(widget.id), 'name': widget.name, 'wongles': widget.wongles, 'waggles': widget.waggles}
 
 
 api.add_resource(WidgetList, '/')
