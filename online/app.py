@@ -1,6 +1,6 @@
 """
-This is a very basic Flask application to demonstrate instrumenting an online
-application with Prometheus.
+This is a basic contrived Flask example to demonstrate instrumenting an
+online application with Prometheus.
 
 """
 
@@ -107,4 +107,4 @@ api.add_resource(WidgetDetail, '/widgets/<widget_id>')
 
 if __name__ == '__main__':
     db.create_all()
-    run_simple('localhost', 5000, dispatched, use_debugger=True, use_reloader=True, use_evalex=True)
+    run_simple('0.0.0.0', 5000, dispatched, use_debugger=True, use_reloader=True, use_evalex=True)
